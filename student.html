@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生信息管理系统 - 我的信息</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <h1>学生信息管理系统</h1>
+      <div class="header-actions">
+        <button class="btn btn-danger" onclick="logout()">退出登录</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="alertContainer"></div>
+    
+    <div class="card">
+      <h2>我的信息</h2>
+      
+      <div id="loadingIndicator" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>加载中...</p>
+      </div>
+      
+      <div id="studentInfoContainer"></div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>
+
