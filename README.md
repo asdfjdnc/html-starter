@@ -26,37 +26,38 @@
 
 ## 快速开始
 
-### 部署到 GitHub 和 Vercel
+### 🚀 5分钟快速部署
 
-1. **查看快速部署指南**: [QUICK_START.md](./QUICK_START.md)
-2. **查看详细部署指南**: [GITHUB_DEPLOYMENT.md](./GITHUB_DEPLOYMENT.md)
+1. **准备数据库**: 在 [Neon](https://neon.tech) 创建数据库并获取连接字符串
+2. **部署到 Vercel**: 导入 GitHub 仓库，配置 `DATABASE_URL` 环境变量
+3. **初始化数据库**: 访问 `https://your-domain.vercel.app/api/init`
+4. **测试系统**: 使用 `admin/admin` 登录
 
-### 部署步骤
+📚 **详细部署指南**: 查看 [快速部署指南](./快速部署指南.md) 或 [完整部署指南](./VERCEL_DEPLOYMENT_GUIDE.md)
 
-#### 1. 推送到 GitHub
+## 部署步骤
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/your-repo.git
-git branch -M main
-git push -u origin main
-```
+### 1. 环境变量配置
 
-#### 2. 部署到 Vercel
+在 Vercel 项目设置中配置以下环境变量：
 
-1. 访问 [Vercel](https://vercel.com) 并登录
-2. 导入 GitHub 仓库
-3. 配置环境变量 `DATABASE_URL`
-4. 点击 "Deploy"
+- `DATABASE_URL`: Neon 数据库连接字符串
 
-#### 3. 初始化数据库
+### 2. 数据库初始化
 
-部署完成后，访问以下 URL 初始化数据库：
+部署到 Vercel 后，访问以下 URL 初始化数据库：
 
 ```
 https://your-domain.vercel.app/api/init
+```
+
+或者使用浏览器直接访问，应该看到：
+
+```json
+{
+  "success": true,
+  "message": "数据库初始化成功"
+}
 ```
 
 这将创建以下表：
@@ -65,7 +66,13 @@ https://your-domain.vercel.app/api/init
 
 并创建默认管理员账号（admin/admin）。
 
-## 本地开发（可选）
+### 3. 安装依赖
+
+```bash
+npm install
+```
+
+### 4. 本地开发（可选）
 
 如果需要本地开发，需要：
 
@@ -189,12 +196,46 @@ vercel dev
 - `created_at`: TIMESTAMP
 - `updated_at`: TIMESTAMP
 
+## 测试
+
+### 本地测试
+
+```bash
+# 测试代码语法
+node test-api.js
+
+# 启动本地测试服务器
+node test-server.js
+```
+
+### 部署后测试
+
+**Windows (PowerShell)**:
+```powershell
+.\test-deployment.ps1 -Url "https://your-project.vercel.app"
+```
+
+**Linux/Mac (Bash)**:
+```bash
+chmod +x test-deployment.sh
+./test-deployment.sh https://your-project.vercel.app
+```
+
+## 文档
+
+- [快速部署指南](./快速部署指南.md) - 5分钟快速部署
+- [完整部署指南](./VERCEL_DEPLOYMENT_GUIDE.md) - 详细部署步骤
+- [部署检查清单](./部署检查清单.md) - 部署检查清单
+- [测试说明](./测试说明.md) - 测试指南
+- [部署指南](./DEPLOYMENT.md) - 部署相关文档
+
 ## 注意事项
 
 1. 首次部署后，必须访问 `/api/init` 初始化数据库
 2. 确保在 Vercel 中配置了 `DATABASE_URL` 环境变量
 3. 密码使用 bcrypt 加密存储
 4. 系统支持中文，数据库使用 UTF-8 编码
+5. 建议在生产环境中修改默认管理员密码
 
 ## 许可证
 
