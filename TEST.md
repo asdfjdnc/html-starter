@@ -1,271 +1,174 @@
 # 测试指南
 
-## 本地测试
+## 本地测试步骤
 
-### 1. 测试代码语法
+### 方法一：使用 Vercel CLI（推荐）
 
-运行测试脚本检查所有代码的语法：
+1. **安装 Vercel CLI**（如果尚未安装）：
+   ```bash
+   npm i -g vercel
+   ```
 
-```bash
-node test-api.js
+2. **配置环境变量**：
+   创建 `.env.local` 文件（如果还没有）：
+   ```bash
+   DATABASE_URL=your_neon_database_connection_string
+   ```
+
+3. **启动本地开发服务器**：
+   ```bash
+   vercel dev
+   ```
+
+4. **访问网站**：
+   打开浏览器访问 `http://localhost:3000`
+
+5. **初始化数据库**：
+   访问 `http://localhost:3000/api/init` 来初始化数据库
+
+### 方法二：使用简单 HTTP 服务器（仅测试前端）
+
+1. **安装 http-server**：
+   ```bash
+   npm install -g http-server
+   ```
+
+2. **启动服务器**：
+   ```bash
+   http-server -p 8080
+   ```
+
+3. **访问网站**：
+   打开浏览器访问 `http://localhost:8080`
+
+**注意**：此方法只能测试前端界面，API功能需要Vercel环境。
+
+## 测试清单
+
+### 1. 数据库初始化测试
+
+- [ ] 访问 `/api/init` 端点
+- [ ] 确认返回成功消息
+- [ ] 检查数据库表是否创建成功
+- [ ] 确认默认管理员账号已创建
+
+### 2. 管理员登录测试
+
+- [ ] 访问登录页面
+- [ ] 选择"管理员"选项
+- [ ] 输入用户名：`admin`
+- [ ] 输入密码：`admin`
+- [ ] 确认登录成功并跳转到管理页面
+
+### 3. 学生注册测试
+
+- [ ] 访问注册页面
+- [ ] 填写所有必填字段：
+  - 学号
+  - 密码
+  - 姓名
+  - 性别
+  - 年龄
+  - 班级
+  - 专业
+- [ ] 提交注册表单
+- [ ] 确认注册成功
+
+### 4. 学生登录测试
+
+- [ ] 访问登录页面
+- [ ] 选择"学生"选项
+- [ ] 输入注册时使用的学号
+- [ ] 输入注册时使用的密码
+- [ ] 确认登录成功并跳转到学生信息页面
+- [ ] 确认显示正确的学生信息
+
+### 5. 学生信息管理测试（管理员）
+
+- [ ] 添加新学生
+- [ ] 编辑学生信息
+- [ ] 删除学生
+- [ ] 搜索学生（按学号、姓名、班级、专业）
+- [ ] 确认所有操作都能正常工作
+
+### 6. 响应式设计测试
+
+- [ ] 在桌面浏览器中测试
+- [ ] 在移动设备或浏览器开发者工具的移动模式下测试
+- [ ] 确认界面在不同屏幕尺寸下都能正常显示
+
+### 7. 中文支持测试
+
+- [ ] 输入中文学生姓名
+- [ ] 输入中文班级名称
+- [ ] 输入中文专业名称
+- [ ] 确认中文显示正常，无乱码
+
+### 8. 安全性测试
+
+- [ ] 测试错误密码登录
+- [ ] 测试未登录访问管理页面
+- [ ] 确认密码加密存储
+- [ ] 确认只有管理员可以管理学生信息
+
+## 常见问题
+
+### 数据库连接失败
+
+**问题**：无法连接到数据库
+
+**解决方案**：
+1. 检查 `DATABASE_URL` 环境变量是否正确
+2. 确认 Neon 数据库正在运行
+3. 检查数据库连接字符串格式
+
+### API 请求失败
+
+**问题**：前端无法调用 API
+
+**解决方案**：
+1. 确认使用 Vercel CLI 运行开发服务器
+2. 检查 API 路由路径是否正确
+3. 查看浏览器控制台的错误信息
+4. 查看 Vercel 函数日志
+
+### 中文乱码
+
+**问题**：中文显示为乱码
+
+**解决方案**：
+1. 确认数据库使用 UTF-8 编码
+2. 检查 HTML 文件的字符编码设置
+3. 确认 API 响应头包含 `charset=utf-8`
+
+## 测试数据示例
+
+### 测试学生信息
+
+```
+学号: 2021001
+密码: test123
+姓名: 张三
+性别: 男
+年龄: 20
+班级: 计算机1班
+专业: 计算机科学
 ```
 
-这将检查：
-- API 代码的语法
-- 前端 JavaScript 代码的语法
-- HTML 文件的结构
-- 配置文件的格式
-
-### 2. 测试前端页面
-
-启动本地测试服务器：
-
-```bash
-node test-server.js
 ```
-
-然后在浏览器中访问：
-- http://localhost:3000 - 登录页面
-- http://localhost:3000/register.html - 注册页面
-- http://localhost:3000/admin.html - 管理员页面
-- http://localhost:3000/student.html - 学生页面
-
-**注意**: 本地测试服务器只用于测试前端页面显示，API 功能需要在 Vercel 上测试。
-
-### 3. 测试 API（需要在 Vercel 上）
-
-#### 步骤 1: 部署到 Vercel
-
-1. 将代码推送到 GitHub
-2. 在 Vercel 中导入项目
-3. 配置 `DATABASE_URL` 环境变量
-4. 部署项目
-
-#### 步骤 2: 初始化数据库
-
-访问以下 URL 初始化数据库：
-
+学号: 2021002
+密码: test123
+姓名: 李四
+性别: 女
+年龄: 19
+班级: 软件工程1班
+专业: 软件工程
 ```
-https://your-domain.vercel.app/api/init
-```
-
-或者使用 curl：
-
-```bash
-curl https://your-domain.vercel.app/api/init
-```
-
-预期响应：
-
-```json
-{
-  "success": true,
-  "message": "数据库初始化成功"
-}
-```
-
-#### 步骤 3: 测试登录功能
-
-**管理员登录测试**:
-
-```bash
-curl -X POST https://your-domain.vercel.app/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "admin",
-    "password": "admin",
-    "userType": "admin"
-  }'
-```
-
-预期响应：
-
-```json
-{
-  "success": true,
-  "userType": "admin",
-  "username": "admin",
-  "id": 1
-}
-```
-
-**学生注册测试**:
-
-```bash
-curl -X POST https://your-domain.vercel.app/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "studentId": "2021001",
-    "password": "123456",
-    "name": "张三",
-    "gender": "男",
-    "age": 20,
-    "className": "计算机1班",
-    "major": "计算机科学"
-  }'
-```
-
-预期响应：
-
-```json
-{
-  "success": true,
-  "message": "注册成功",
-  "student": {
-    "id": 1,
-    "student_id": "2021001",
-    "name": "张三",
-    "gender": "男",
-    "age": 20,
-    "class_name": "计算机1班",
-    "major": "计算机科学"
-  }
-}
-```
-
-**学生登录测试**:
-
-```bash
-curl -X POST https://your-domain.vercel.app/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "2021001",
-    "password": "123456",
-    "userType": "student"
-  }'
-```
-
-#### 步骤 4: 测试学生管理功能
-
-**获取学生列表**:
-
-```bash
-curl https://your-domain.vercel.app/api/students
-```
-
-**添加学生**:
-
-```bash
-curl -X POST https://your-domain.vercel.app/api/students \
-  -H "Content-Type: application/json" \
-  -d '{
-    "studentId": "2021002",
-    "password": "123456",
-    "name": "李四",
-    "gender": "女",
-    "age": 19,
-    "className": "计算机1班",
-    "major": "计算机科学"
-  }'
-```
-
-**获取学生详情**:
-
-```bash
-curl https://your-domain.vercel.app/api/students/1
-```
-
-**更新学生信息**:
-
-```bash
-curl -X PUT https://your-domain.vercel.app/api/students/1 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "studentId": "2021001",
-    "name": "张三",
-    "gender": "男",
-    "age": 21,
-    "className": "计算机2班",
-    "major": "软件工程"
-  }'
-```
-
-**删除学生**:
-
-```bash
-curl -X DELETE https://your-domain.vercel.app/api/students/1
-```
-
-## 功能测试清单
-
-### 前端测试
-
-- [x] 登录页面显示正常
-- [x] 注册页面显示正常
-- [x] 管理员页面显示正常
-- [x] 学生页面显示正常
-- [x] 响应式设计在不同屏幕尺寸下正常
-- [x] 中文显示正常，无乱码
-- [x] 表单验证正常工作
-- [x] 用户类型选择器正常工作
-
-### API 测试
-
-- [ ] 数据库初始化成功
-- [ ] 管理员登录成功
-- [ ] 学生注册成功
-- [ ] 学生登录成功
-- [ ] 获取学生列表成功
-- [ ] 添加学生成功
-- [ ] 获取学生详情成功
-- [ ] 更新学生信息成功
-- [ ] 删除学生成功
-- [ ] 搜索学生功能正常
-- [ ] 密码加密存储正常
-- [ ] 错误处理正常
-
-### 安全性测试
-
-- [ ] 密码正确加密存储
-- [ ] 未授权访问被阻止
-- [ ] SQL 注入防护正常
-- [ ] XSS 防护正常
-
-## 浏览器测试
-
-建议在以下浏览器中测试：
-
-- [ ] Chrome (最新版本)
-- [ ] Firefox (最新版本)
-- [ ] Safari (最新版本)
-- [ ] Edge (最新版本)
-- [ ] 移动浏览器 (iOS Safari, Chrome Mobile)
 
 ## 性能测试
 
-- [ ] 页面加载速度正常
-- [ ] API 响应时间正常
-- [ ] 数据库查询性能正常
+- [ ] 测试页面加载速度
+- [ ] 测试 API 响应时间
+- [ ] 测试大量数据下的性能
+- [ ] 测试并发用户访问
 
-## 问题排查
-
-如果遇到问题，请检查：
-
-1. **数据库连接问题**
-   - 检查 `DATABASE_URL` 环境变量是否正确
-   - 检查 Neon 数据库是否正常运行
-   - 查看 Vercel 函数日志
-
-2. **API 请求失败**
-   - 检查浏览器控制台的错误信息
-   - 检查网络请求是否正常
-   - 查看 Vercel 函数日志
-
-3. **中文乱码**
-   - 检查数据库编码设置
-   - 检查 API 响应头中的 charset
-   - 检查 HTML 文件的 charset 设置
-
-4. **页面显示问题**
-   - 检查 CSS 文件是否正常加载
-   - 检查 JavaScript 文件是否正常加载
-   - 检查浏览器控制台是否有错误
-
-## 测试报告
-
-测试完成后，请记录：
-
-1. 测试环境（浏览器、操作系统等）
-2. 测试结果（通过/失败）
-3. 发现的问题
-4. 问题解决方案

@@ -24,17 +24,6 @@
 - 用户名: `admin`
 - 密码: `admin`
 
-## 快速开始
-
-### 🚀 5分钟快速部署
-
-1. **准备数据库**: 在 [Neon](https://neon.tech) 创建数据库并获取连接字符串
-2. **部署到 Vercel**: 导入 GitHub 仓库，配置 `DATABASE_URL` 环境变量
-3. **初始化数据库**: 访问 `https://your-domain.vercel.app/api/init`
-4. **测试系统**: 使用 `admin/admin` 登录
-
-📚 **详细部署指南**: 查看 [快速部署指南](./快速部署指南.md) 或 [完整部署指南](./VERCEL_DEPLOYMENT_GUIDE.md)
-
 ## 部署步骤
 
 ### 1. 环境变量配置
@@ -51,13 +40,10 @@
 https://your-domain.vercel.app/api/init
 ```
 
-或者使用浏览器直接访问，应该看到：
+或者使用 POST 请求：
 
-```json
-{
-  "success": true,
-  "message": "数据库初始化成功"
-}
+```bash
+curl -X POST https://your-domain.vercel.app/api/init
 ```
 
 这将创建以下表：
@@ -196,46 +182,12 @@ vercel dev
 - `created_at`: TIMESTAMP
 - `updated_at`: TIMESTAMP
 
-## 测试
-
-### 本地测试
-
-```bash
-# 测试代码语法
-node test-api.js
-
-# 启动本地测试服务器
-node test-server.js
-```
-
-### 部署后测试
-
-**Windows (PowerShell)**:
-```powershell
-.\test-deployment.ps1 -Url "https://your-project.vercel.app"
-```
-
-**Linux/Mac (Bash)**:
-```bash
-chmod +x test-deployment.sh
-./test-deployment.sh https://your-project.vercel.app
-```
-
-## 文档
-
-- [快速部署指南](./快速部署指南.md) - 5分钟快速部署
-- [完整部署指南](./VERCEL_DEPLOYMENT_GUIDE.md) - 详细部署步骤
-- [部署检查清单](./部署检查清单.md) - 部署检查清单
-- [测试说明](./测试说明.md) - 测试指南
-- [部署指南](./DEPLOYMENT.md) - 部署相关文档
-
 ## 注意事项
 
 1. 首次部署后，必须访问 `/api/init` 初始化数据库
 2. 确保在 Vercel 中配置了 `DATABASE_URL` 环境变量
 3. 密码使用 bcrypt 加密存储
 4. 系统支持中文，数据库使用 UTF-8 编码
-5. 建议在生产环境中修改默认管理员密码
 
 ## 许可证
 
